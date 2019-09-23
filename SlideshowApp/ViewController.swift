@@ -24,6 +24,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
         let imageView = images.first!
         
+        
         UIImageView.image = imageView
         UIImageView.contentMode = UIView.ContentMode.center
         
@@ -32,6 +33,9 @@ class ViewController: UIViewController {
     
     @objc func UIImageViewTapped(_ sender: UITapGestureRecognizer) {
         performSegue(withIdentifier: "toBigViewController", sender: nil)
+        if timer.isValid == true {
+            timer.invalidate()
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -72,15 +76,18 @@ class ViewController: UIViewController {
         if let slide = timer{
             if slide.isValid == true {
                 slide.invalidate()
+                playStopButton.setTitle("再生", for: .normal)
                 buttonEnabled(back: true,next :true,playStop :true)
             }else{
                     starttimer()
+                    playStopButton.setTitle("停止", for: .normal)
                     buttonEnabled(back: false,next :false,playStop :true)
               }
             }
         
         if self.timer == nil{
            starttimer()
+            playStopButton.setTitle("停止", for: .normal)
            buttonEnabled(back: false,next :false,playStop :true)
         }
     }
@@ -108,5 +115,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func unwind(_ segue: UIStoryboardSegue) {
+        playStopButton.setTitle("再生", for: .normal)
+        buttonEnabled(back: true,next :true,playStop :true)
     }
 }
